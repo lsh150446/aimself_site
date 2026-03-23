@@ -1,63 +1,167 @@
 ---
-import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
-import Layout from '../layouts/BlogPost.astro';
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_TITLE } from "../consts";
 ---
 
-<Layout
-	title="About Me"
-	description="Lorem ipsum dolor sit amet"
-	pubDate={new Date('August 08 2021')}
-	heroImage={AboutHeroImage}
->
-	<p>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-		labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo
-		viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam
-		adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus
-		et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus
-		vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque
-		sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
-	</p>
+<html lang="zh-CN">
+  <head>
+    <BaseHead title={`About · ${SITE_TITLE}`} description="关于 AIMself：产品、写作与自我进化。" />
+    <style>
+      .container {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
 
-	<p>
-		Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non
-		tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non
-		blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna
-		porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis
-		massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc.
-		Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis
-		bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra
-		massa massa ultricies mi.
-	</p>
+      .hero {
+        padding: 64px 0 28px;
+      }
 
-	<p>
-		Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl
-		suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet
-		nibh praesent tristique magna sit amet. Eget magna fermentum iaculis eu non diam. In vitae
-		turpis massa sed elementum. Tristique et egestas quis ipsum suspendisse ultrices. Eget lorem
-		dolor sed viverra ipsum. Vel turpis nunc eget lorem dolor sed viverra. Posuere ac ut consequat
-		semper viverra nam. Laoreet suspendisse interdum consectetur libero id faucibus. Diam phasellus
-		vestibulum lorem sed risus ultricies tristique. Rhoncus dolor purus non enim praesent elementum
-		facilisis. Ultrices tincidunt arcu non sodales neque. Tempus egestas sed sed risus pretium quam
-		vulputate. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Fringilla
-		urna porttitor rhoncus dolor purus non. Amet dictum sit amet justo donec enim.
-	</p>
+      .hero h1 {
+        margin: 0 0 10px;
+        font-size: clamp(36px, 4.2vw, 54px);
+        line-height: 1.06;
+        letter-spacing: -0.04em;
+      }
 
-	<p>
-		Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Tortor posuere ac ut consequat semper
-		viverra. Tellus mauris a diam maecenas sed enim ut sem viverra. Venenatis urna cursus eget nunc
-		scelerisque viverra mauris in. Arcu ac tortor dignissim convallis aenean et tortor at. Curabitur
-		gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas tellus rutrum tellus
-		pellentesque eu. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Ut enim
-		blandit volutpat maecenas volutpat blandit aliquam etiam. Id donec ultrices tincidunt arcu. Id
-		cursus metus aliquam eleifend mi.
-	</p>
+      .lead {
+        margin: 0;
+        font-size: 18px;
+        line-height: 1.75;
+        opacity: .82;
+        max-width: 72ch;
+      }
 
-	<p>
-		Tempus quam pellentesque nec nam aliquam sem. Risus at ultrices mi tempus imperdiet. Id porta
-		nibh venenatis cras sed felis eget velit. Ipsum a arcu cursus vitae. Facilisis magna etiam
-		tempor orci eu lobortis elementum. Tincidunt dui ut ornare lectus sit. Quisque non tellus orci
-		ac. Blandit libero volutpat sed cras. Nec tincidunt praesent semper feugiat nibh sed pulvinar
-		proin gravida. Egestas integer eget aliquet nibh praesent tristique magna.
-	</p>
-</Layout>
+      .section {
+        padding: 26px 0;
+        border-top: 1px solid rgba(0,0,0,.08);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1.2fr .8fr;
+        gap: 18px;
+        align-items: start;
+      }
+
+      .card {
+        border: 1px solid rgba(0,0,0,.10);
+        border-radius: 16px;
+        padding: 18px;
+        background: rgba(255,255,255,.6);
+      }
+
+      h2 {
+        margin: 0 0 12px;
+        font-size: 18px;
+        letter-spacing: -0.02em;
+      }
+
+      p {
+        margin: 0 0 10px;
+        line-height: 1.8;
+        opacity: .80;
+      }
+
+      ul {
+        margin: 0;
+        padding-left: 18px;
+        opacity: .80;
+        line-height: 1.9;
+      }
+
+      .kicker {
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+        padding: 6px 12px;
+        border: 1px solid rgba(0,0,0,.12);
+        border-radius: 999px;
+        font-size: 12px;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+        opacity: .85;
+        margin-bottom: 14px;
+      }
+
+      .contact a {
+        display: inline-flex;
+        padding: 10px 12px;
+        border-radius: 12px;
+        border: 1px solid rgba(0,0,0,.12);
+        text-decoration: none;
+        color: inherit;
+        font-weight: 700;
+      }
+
+      .muted {
+        opacity: .65;
+        font-size: 13px;
+        margin-top: 10px;
+      }
+
+      @media (max-width: 860px) {
+        .grid { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <Header />
+    <main class="container">
+      <section class="hero">
+        <div class="kicker">About · AIMself</div>
+        <h1>关于我</h1>
+        <p class="lead">
+          我在这里记录从 0 到 1 的过程：产品、写作与自我进化。<br />
+          目标不是“看起来努力”，而是把事情做成，并把方法沉淀下来。
+        </p>
+      </section>
+
+      <section class="section">
+        <div class="grid">
+          <div class="card">
+            <h2>我在做什么</h2>
+            <ul>
+              <li>写产品笔记：需求、取舍、落地、复盘。</li>
+              <li>练写作：把复杂问题讲清楚，让表达产生复利。</li>
+              <li>做自我进化：用系统与习惯，减少重复试错。</li>
+            </ul>
+          </div>
+
+          <div class="card contact">
+            <h2>联系我</h2>
+            <p>欢迎交流：产品 / 写作 / 方法论 / AI 工具。</p>
+            <a href="mailto:dalaohuyou6@gmail.com">dalaohuyou6@gmail.com</a>
+            <p class="muted">（后续你也可以在这里补充：GitHub、公众号、小红书等链接）</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="card">
+          <h2>我相信什么</h2>
+          <ul>
+            <li>长期主义不是硬扛，而是把目标拆成可复用的日常动作。</li>
+            <li>有输出的学习，才会形成自己的判断与系统。</li>
+            <li>做事要“能落地”，写作要“能复用”。</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="card">
+          <h2>这网站会写什么</h2>
+          <ul>
+            <li>产品：从想法到验证，从验证到迭代。</li>
+            <li>写作：结构化表达、内容产品化、复盘模板。</li>
+            <li>自我进化：习惯系统、效率方法、工具链。</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>
