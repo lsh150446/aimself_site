@@ -203,20 +203,27 @@ const posts = (await getCollection("blog"))
   <body>
     <Header />
     <main class="container">
-      <section class="hero">
-        <div class="kicker">AIMself · Notes</div>
-        <h1>AIMself</h1>
-        <p class="subtitle">从 0 到 1 的笔记：产品、写作与自我进化。</p>
-        <p class="desc">
-          我在这里记录：产品思考、写作方法与真实复盘。<br />
-          少一点鸡汤，多一点可复用的结论。
-        </p>
+     <section class="hero heroSplit">
+  <div class="heroText">
+    <div class="kicker">AIMself · Notes</div>
+    <h1>AIMself</h1>
+    <p class="subtitle">从 0 到 1 的笔记：产品、写作与自我进化。</p>
+    <p class="desc">
+      我在这里记录：产品思考、写作方法与真实复盘。<br />
+      少一点鸡汤，多一点可复用的结论。
+    </p>
 
-        <div class="actions">
-          <a class="btn primary" href="/blog">阅读文章</a>
-          <a class="btn secondary" href="/about">关于我</a>
-        </div>
-      </section>
+    <div class="actions">
+      <a class="btn primary" href="/blog">阅读文章</a>
+      <a class="btn secondary" href="/about">关于我</a>
+    </div>
+  </div>
+
+  <div class="heroMedia" aria-hidden="true">
+    <img src="/hero.jpg" alt="" loading="eager" />
+    <div class="heroOverlay"></div>
+  </div>
+</section>
 
       <section class="section">
         <div class="grid3">
