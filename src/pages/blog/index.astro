@@ -1,114 +1,196 @@
 ---
-import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
-import BaseHead from '../../components/BaseHead.astro';
-import Footer from '../../components/Footer.astro';
-import FormattedDate from '../../components/FormattedDate.astro';
-import Header from '../../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import BaseHead from "../../components/BaseHead.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE_TITLE } from "../../consts";
+import { getCollection } from "astro:content";
+import FormattedDate from "../../components/FormattedDate.astro";
 
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+const posts = (await getCollection("blog"))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				width: 960px;
-			}
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-			}
-			ul li {
-				width: calc(50% - 1rem);
-			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
-			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
-			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
-			}
-			ul li a {
-				display: block;
-			}
-			.title {
-				margin: 0;
-				color: rgb(var(--black));
-				line-height: 1;
-			}
-			.date {
-				margin: 0;
-				color: rgb(var(--gray));
-			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
-			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
-			}
-			@media (max-width: 720px) {
-				ul {
-					gap: 0.5em;
-				}
-				ul li {
-					width: 100%;
-					text-align: center;
-				}
-				ul li:first-child {
-					margin-bottom: 0;
-				}
-				ul li:first-child .title {
-					font-size: 1.563em;
-				}
-			}
-		</style>
-	</head>
-	<body>
-		<Header />
-		<main>
-			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" />
-									)}
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
-								</a>
-							</li>
-						))
-					}
-				</ul>
-			</section>
-		</main>
-		<Footer />
-	</body>
+<html lang="zh-CN">
+  <head>
+    <BaseHead title={`Blog · ${SITE_TITLE}`} description="AIMself 的文章：产品、写作与自我进化。" />
+    <style>
+      .container {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      .hero {
+        padding: 56px 0 28px;
+      }
+
+      .kicker {
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+        padding: 6px 12px;
+        border: 1px solid rgba(0,0,0,.12);
+        border-radius: 999px;
+        font-size: 12px;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+        opacity: .85;
+        margin-bottom: 14px;
+      }
+
+      h1 {
+        margin: 0 0 10px;
+        font-size: clamp(34px, 4.6vw, 52px);
+        line-height: 1.08;
+        letter-spacing: -0.04em;
+      }
+
+      .lead {
+        margin: 0;
+        font-size: 18px;
+        line-height: 1.75;
+        opacity: .78;
+        max-width: 70ch;
+      }
+
+      .section {
+        padding: 22px 0 44px;
+        border-top: 1px solid rgba(0,0,0,.08);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1.4fr .6fr;
+        gap: 18px;
+        align-items: start;
+      }
+
+      .list {
+        display: grid;
+        gap: 12px;
+      }
+
+      .post {
+        display: block;
+        padding: 16px 16px 14px;
+        border-radius: 16px;
+        border: 1px solid rgba(0,0,0,.10);
+        text-decoration: none;
+        color: inherit;
+        background: rgba(255,255,255,.6);
+      }
+
+      .post:hover {
+        border-color: rgba(0,0,0,.18);
+      }
+
+      .postTitle {
+        margin: 0;
+        font-size: 18px;
+        letter-spacing: -0.02em;
+        line-height: 1.35;
+      }
+
+      .meta {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-top: 8px;
+        opacity: .65;
+        font-size: 13px;
+      }
+
+      .excerpt {
+        margin: 10px 0 0;
+        opacity: .78;
+        line-height: 1.8;
+      }
+
+      .sideCard {
+        padding: 18px;
+        border-radius: 16px;
+        border: 1px solid rgba(0,0,0,.10);
+        background: rgba(255,255,255,.6);
+      }
+
+      .sideCard h2 {
+        margin: 0 0 10px;
+        font-size: 16px;
+        letter-spacing: -0.02em;
+      }
+
+      .tagRow {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .tag {
+        padding: 8px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(0,0,0,.12);
+        font-size: 12px;
+        opacity: .8;
+      }
+
+      .tip {
+        margin-top: 12px;
+        opacity: .72;
+        line-height: 1.7;
+        font-size: 13px;
+      }
+
+      @media (max-width: 860px) {
+        .grid { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <Header />
+    <main class="container">
+      <section class="hero">
+        <div class="kicker">AIMself · Blog</div>
+        <h1>文章</h1>
+        <p class="lead">
+          这里收录我的产品笔记、写作方法与自我进化复盘。<br />
+          少一点噪音，多一点可复用的结论。
+        </p>
+      </section>
+
+      <section class="section">
+        <div class="grid">
+          <div class="list">
+            {posts.map((post) => (
+              <a class="post" href={`/blog/${post.slug}/`}>
+                <h2 class="postTitle">{post.data.title}</h2>
+                <div class="meta">
+                  <FormattedDate date={post.data.pubDate} />
+                  <span>·</span>
+                  <span>{post.data.description ?? "—"}</span>
+                </div>
+                {post.data.description && <p class="excerpt">{post.data.description}</p>}
+              </a>
+            ))}
+          </div>
+
+          <aside class="sideCard">
+            <h2>主题</h2>
+            <div class="tagRow">
+              <span class="tag">Product</span>
+              <span class="tag">Writing</span>
+              <span class="tag">Evolution</span>
+              <span class="tag">AI</span>
+              <span class="tag">Notes</span>
+            </div>
+            <div class="tip">
+              后续如果你想做“按标签筛选/搜索”，我可以给你加：tag 页面 + 搜索框（不需要后端）。
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </body>
 </html>
