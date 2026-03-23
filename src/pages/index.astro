@@ -212,7 +212,7 @@ const posts = (await getCollection("blog"))
   border-radius: 22px;
   overflow: hidden;
   border: 1px solid rgba(0,0,0,.12);
-  min-height: 1408px;
+  min-height: 768px;
   background: #0b0f19;
 }
 
@@ -233,9 +233,9 @@ const posts = (await getCollection("blog"))
   pointer-events:none;
 }
 
-@media (max-width: 768px){
+@media (max-width: 1408px){
   .heroSplit{ grid-template-columns: 1fr; }
-  .heroMedia{ min-height: 320px; }
+  .heroMedia{ min-height: 768px; }
 }
     </style>
   </head>
