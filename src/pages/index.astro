@@ -1,49 +1,272 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog"))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
+<html lang="zh-CN">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <style>
+      .container {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      .hero {
+        padding: 72px 0 44px;
+      }
+
+      .kicker {
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+        padding: 6px 12px;
+        border: 1px solid rgba(0,0,0,.12);
+        border-radius: 999px;
+        font-size: 12px;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+        opacity: .85;
+      }
+
+      .hero h1 {
+        margin: 18px 0 10px;
+        font-size: clamp(44px, 6vw, 72px);
+        line-height: 1.03;
+        letter-spacing: -0.04em;
+      }
+
+      .subtitle {
+        margin: 0;
+        font-size: clamp(18px, 2.2vw, 22px);
+        line-height: 1.5;
+        opacity: .88;
+        max-width: 52ch;
+      }
+
+      .desc {
+        margin: 14px 0 0;
+        opacity: .72;
+        line-height: 1.7;
+        max-width: 62ch;
+      }
+
+      .actions {
+        margin-top: 26px;
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 16px;
+        border-radius: 12px;
+        border: 1px solid rgba(0,0,0,.14);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .btn.primary {
+        background: #111;
+        color: #fff;
+        border-color: #111;
+      }
+
+      .btn.secondary {
+        background: transparent;
+        color: inherit;
+      }
+
+      .section {
+        padding: 36px 0;
+        border-top: 1px solid rgba(0,0,0,.08);
+      }
+
+      .grid3 {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .card {
+        padding: 18px 18px 16px;
+        border: 1px solid rgba(0,0,0,.10);
+        border-radius: 16px;
+        background: rgba(255,255,255,.6);
+      }
+
+      .card h3 {
+        margin: 0 0 8px;
+        font-size: 16px;
+        letter-spacing: -0.01em;
+      }
+
+      .card p {
+        margin: 0;
+        opacity: .78;
+        line-height: 1.7;
+      }
+
+      .meta {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        opacity: .65;
+        font-size: 13px;
+        margin: 10px 0 0;
+      }
+
+      .posts {
+        display: grid;
+        gap: 10px;
+      }
+
+      .postRow {
+        padding: 14px 16px;
+        border-radius: 14px;
+        border: 1px solid rgba(0,0,0,.10);
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: baseline;
+      }
+
+      .postRow:hover {
+        border-color: rgba(0,0,0,.18);
+      }
+
+      .postRow strong {
+        letter-spacing: -0.01em;
+      }
+
+      .postRow span {
+        opacity: .6;
+        font-size: 13px;
+        white-space: nowrap;
+      }
+
+      .cta {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 18px;
+        flex-wrap: wrap;
+      }
+
+      .cta h2 {
+        margin: 0 0 6px;
+        font-size: 20px;
+        letter-spacing: -0.02em;
+      }
+
+      .cta p {
+        margin: 0;
+        opacity: .75;
+        line-height: 1.7;
+        max-width: 70ch;
+      }
+
+      .email {
+        padding: 10px 12px;
+        border-radius: 12px;
+        border: 1px solid rgba(0,0,0,.12);
+        font-weight: 600;
+        text-decoration: none;
+        color: inherit;
+      }
+
+      @media (max-width: 860px) {
+        .grid3 {
+          grid-template-columns: 1fr;
+        }
+        .hero {
+          padding: 56px 0 36px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main class="container">
+      <section class="hero">
+        <div class="kicker">AIMself · Notes</div>
+        <h1>AIMself</h1>
+        <p class="subtitle">从 0 到 1 的笔记：产品、写作与自我进化。</p>
+        <p class="desc">
+          我在这里记录：产品思考、写作方法与真实复盘。<br />
+          少一点鸡汤，多一点可复用的结论。
+        </p>
+
+        <div class="actions">
+          <a class="btn primary" href="/blog">阅读文章</a>
+          <a class="btn secondary" href="/about">关于我</a>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="grid3">
+          <div class="card">
+            <h3>Product</h3>
+            <p>从需求到方案，从方案到上线：写可落地的产品笔记。</p>
+            <div class="meta">关键词：定位 · 取舍 · 增长</div>
+          </div>
+          <div class="card">
+            <h3>Writing</h3>
+            <p>写作不是灵感，而是结构：用清晰表达换来更高的复利。</p>
+            <div class="meta">关键词：结构 · 叙事 · 复用</div>
+          </div>
+          <div class="card">
+            <h3>Evolution</h3>
+            <p>持续复盘与迭代，让自己每隔一段时间就“升级一次”。</p>
+            <div class="meta">关键词：复盘 · 习惯 · 系统</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="cta" style="margin-bottom: 14px;">
+          <div>
+            <h2>最新文章</h2>
+            <p>从小结论开始，慢慢搭起一套属于自己的方法论。</p>
+          </div>
+          <a class="btn secondary" href="/blog">查看全部 →</a>
+        </div>
+
+        <div class="posts">
+          {posts.map((post) => (
+            <a class="postRow" href={`/blog/${post.slug}/`}>
+              <strong>{post.data.title}</strong>
+              <span>{post.data.pubDate.toISOString().slice(0, 10)}</span>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="cta">
+          <div>
+            <h2>联系我</h2>
+            <p>如果你想交流产品、写作或自我进化的方法，欢迎来信。</p>
+          </div>
+          <a class="email" href="mailto:dalaohuyou6@gmail.com">dalaohuyou6@gmail.com</a>
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </body>
 </html>
